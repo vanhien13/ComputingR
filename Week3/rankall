@@ -1,0 +1,44 @@
+rankall <- function(outcome, num = "best") {
+  data <- read.csv('outcome-of-care-measures.csv', colClasses = "character")
+  
+  if (outcome == "heart attack") {
+    colnum <- 11
+  } else if (outcome == "heart failure"){
+    colnum <- 17
+  } else if (outcome == "pneumonia"){ 
+    colnum <- 23
+  } else {
+    stop("invalid outcome")    
+  }
+  
+  states <- names(table(data$State))
+  
+  dataframe <- data.frame()
+  for (state in states) {
+    # get the data for every state
+    newdata <- data[data$State==state, c(7, 2, colnum)]
+    newdata[,3] <- newdata[,as.numeric(3)]
+    numrows <- nrow(newdata)
+    print(numrows)
+    if (num == "best") {
+      decr <- FALSE
+      row_num <- 1
+    } else if (num == "worst") {
+      decr <- TRUE
+      row_num <- 1
+    } else { 
+      decr <- FALSE
+      row_num <- num
+    }
+    if (is.numeric(num) && (num > numrows)) {
+      datafr <- NA 
+      #stop("invalid number of observations")
+    } else {
+      datafr <- newdata[order(as.numeric(newdata[,3]), newdata[,2], na.last=NA, decreasing=decr),][row_num,2]
+    }
+    rd <- data.frame(hospital = datafr, state = state)
+    dataframe <- rbind(dataframe, rd)  
+    
+  }
+  return(dataframe)
+}
