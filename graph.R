@@ -195,3 +195,26 @@ p4 <-
     ggtitle("Final weight, by diet") +
     theme(legend.position="none")        # No legend (redundant in this graph)
 grid.arrange(p1,p2,p3,p4, ncol = 2, main = "Main title")
+
+## Set up data to plot with two ordinates - points and lines
+#line.x <- 2:10
+#bar.x <- 2:10
+bar.y <- seq(3,7,by=0.5)+rnorm(9)
+#bar.x <- 1:15
+bar.x <- 2:10
+line.x <- 1:15
+line.y <- rev(60:74)+rnorm(15)
+x.range <- range(bar.x, line.x)
+## Plot the data
+par(mar=c(5,4,4,4)+0.1)    ## Make enough room for both labels
+plot(y=bar.y, x=bar.x, type='h', lwd=25, lend=4, xlim=x.range, xlab="Sequence", ylab="", main="Plot with two ordinates - points and lines")
+par(new=TRUE)
+plot(y=line.y, x=line.x, col='red', type='o', xlim=x.range, axes=FALSE, xlab='', ylab='')
+
+## Set up the axes and labels
+axis(side=4, col='red', labels=FALSE)
+at = axTicks(4)
+mtext(side = 4, text = at, at = at, col = "red", line = 1) 
+## Add x-axis labels; this allows customization of the how far out labels are
+mtext(text='Descending values', side=4, line=2, col='red')
+mtext(text='Ascending values', side=2, line=2)
