@@ -1,0 +1,10 @@
+require(foreign)
+require(nnet)
+require(ggplot2)
+require(reshape2)
+clust_data <- read.dta("http://www.ats.ucla.edu/stat/data/hsbdemo.dta")
+myvars <- c("read", "write", "math", "science", "socst")
+clust_data_new <- clust_data[myvars]
+(kc <- kmeans(clust_data_new, 4))
+plot(clust_data_new[c("read", "write")], col=kc$cluster)
+points(kc$centers[,c("read", "write")], col=1:4, pch=8, cex=2)
