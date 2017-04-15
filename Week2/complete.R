@@ -27,3 +27,9 @@ for (count in id) {
 
 	return(data.frame)
 }
+
+# tests
+complete("specdata", 1)
+complete("specdata", c(2, 5, 8, 11, 13))
+complete("specdata", 15:30)
+complete("specdata", 3)
